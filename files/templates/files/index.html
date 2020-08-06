@@ -4,3 +4,17 @@
     <li>{{client.full_name}}</li>
     {% endfor %}
 </ul>
+
+<h1>Instituciones</h1>
+<ul>
+    {% for institution in institutions %}
+    <li>{{institution.business_name}}</li>
+    {% endfor %}
+</ul>
+
+<h1>Planes de salud</h1>
+<ul>
+    {% for health_plan in health_plans %}
+    <li>{{health_plan.name}}</li>
+    {% endfor %}
+</ul>

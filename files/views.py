@@ -9,7 +9,6 @@ from files.models import (
 
 def  get_info(request):
     clients = Client.objects.all()
-    import pdb; pdb.set_trace()
     institutions = Institution.objects.all()
     health_plans = HealthPlan.objects.all()
     context = {
