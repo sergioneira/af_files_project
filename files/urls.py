@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import index
+from .views import get_info
 
 urlpatterns = [
     path(
         '',
-        index,
+        get_info,
         name="",
     )
 ]
