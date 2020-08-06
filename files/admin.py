@@ -6,18 +6,6 @@ from .models import (
 )
 
 
-class ClientAdmin(admin.ModelAdmin):
-    pass
-
-
-class InstitutionAdmin(admin.ModelAdmin):
-    pass
-
-
-class HealthPlanAdmin(admin.ModelAdmin):
-    pass
-
-
-admin.site.register(Client, ClientAdmin)
-admin.site.register(Institution, InstitutionAdmin)
-admin.site.register(HealthPlan, HealthPlanAdmin)
+admin.site.register(Client)
+admin.site.register(Institution)
+admin.site.register(HealthPlan)
