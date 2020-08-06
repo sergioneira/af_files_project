@@ -18,3 +18,4 @@ def  get_info(request):
     }
 
     return render(request, 'files/index.html', context)
+    

@@ -30,6 +30,3 @@ class HealthPlan(models.Model):
 
     class Meta:
         db_table = 'health_plan'
-
-
-

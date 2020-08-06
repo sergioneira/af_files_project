@@ -1,3 +1,7 @@
+<!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
 <h1>Clientes</h1>
 <ul>
     {% for client in clients %}
@@ -13,8 +17,49 @@
 </ul>
 
 <h1>Planes de salud</h1>
-<ul>
+<select id="health_plans">
+    <option>Seleccionar</option>
     {% for health_plan in health_plans %}
-    <li>{{health_plan.name}}</li>
+    <option value={{health_plan.pk}}>{{health_plan.name}}</option>
     {% endfor %}
-</ul>
+</select>
+
+<button id='create_doc'>Crear documento</button>
+
+<div class="container mt-5 mb-5">
+    <textarea id="summernote">
+        asdklansldkasndl
+    </textarea>
+</div>
+
+
+
+<!-- Libraries -->
+<script src="https://unpkg.com/docx@5.0.2/build/index.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<!-- Libraries -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#summernote').summernote();
+    });
+    /*create_doc = document.getElementById('create_doc')
+                                                                create_doc.addEventListener('click', function(e) {
+                                                                    let
+
+                                                                    let health_plans = document.getElementById('health_plans')
+                                                                    console.log(health_plans.options[health_plans.selectedIndex].value)
+                                                                })*/
+
+    create_doc = document.getElementById('create_doc')
+    create_doc.addEventListener("click", () => {
+        let doc = new docx.Document();
+        console.log("documento creado");
+        console.log(doc);
+    })
+</script>
