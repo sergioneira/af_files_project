@@ -69,7 +69,8 @@
         "/files/writing/"
     ).done(function(data) {
         console.log(typeof data)
-        $("#summernote").append(data)
+        textArea = document.getElementById('summernote')
+        textArea.innerHTML = data
     })
 </script>
 {% endblock %}
