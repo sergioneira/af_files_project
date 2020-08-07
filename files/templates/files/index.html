@@ -68,7 +68,7 @@
     $.ajax(
         "/files/writing/"
     ).done(function(data) {
-        console.log(data)
+        console.log(typeof data)
         $("#summernote").append(data)
     })
 </script>
