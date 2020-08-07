@@ -28,7 +28,7 @@
 
 <div class="container mt-5 mb-5">
     <textarea id="summernote">
-        asdklansldkasndl
+        
     </textarea>
 </div>
 
@@ -46,7 +46,9 @@
 <!-- Libraries -->
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#summernote').summernote();
+        $('#summernote').summernote({
+            height: 400,
+        });
     });
     /*create_doc = document.getElementById('create_doc')
                                                                 create_doc.addEventListener('click', function(e) {

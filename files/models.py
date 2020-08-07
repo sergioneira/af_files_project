@@ -30,3 +30,12 @@ class HealthPlan(models.Model):
 
     class Meta:
         db_table = 'health_plan'
+
+
+class Writing(models.Model):
+
+    name = models.CharField(max_length=200)
+    content = models.TextField()
+
+    class Meta:
+        db_table = 'writing'
