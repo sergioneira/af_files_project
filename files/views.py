@@ -4,10 +4,11 @@ from files.models import (
     Client,
     Institution,
     HealthPlan,
+    Writing,
 )
 
 
-def  get_info(request):
+def get_info(request):
     clients = Client.objects.all()
     institutions = Institution.objects.all()
     health_plans = HealthPlan.objects.all()
@@ -18,4 +19,9 @@ def  get_info(request):
     }
 
     return render(request, 'files/index.html', context)
+
+
+def get_writing(request):
+    content = Writing.objects.first().content
+    return HttpResponse(content)
     
