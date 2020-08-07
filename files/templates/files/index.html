@@ -68,7 +68,7 @@
     $.ajax(
         "/files/writing/"
     ).done(function(data) {
-        $('#summernote').summernote('editor.insertText', data)
+        $("#summernote").summernote("editor.pasteHTML", data)
     })
 </script>
 {% endblock %}
