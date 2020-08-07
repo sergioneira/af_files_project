@@ -68,9 +68,7 @@
     $.ajax(
         "/files/writing/"
     ).done(function(data) {
-        console.log(typeof data)
-        textArea = document.getElementById('summernote')
-        textArea.innerHTML = data
+        $('#summernote').summernote('editor.insertText', data)
     })
 </script>
 {% endblock %}
