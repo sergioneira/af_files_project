@@ -10,10 +10,10 @@
                 <div class="form-group">
                     <label for="client-full-info">Nombre completo del cliente:</label>
                     <select id="client-full-info" class="form-control">
-                        <option>client 1</option>
-                        <option>client 2</option>
-                        <option>client 3</option>
-                        <option>client 4</option>
+                        {% for client in clients %}
+                            <option value="Selection">Selección</option>
+                            <option value="{{client.run}}">{{client.full_name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
@@ -21,25 +21,79 @@
                 <div class="form-group">
                     <label for="institution-info">Nombre instución:</label>
                     <select id="institution-info" class="form-control">
-                        <option>institution 1</option>
-                        <option>institution 2</option>
-                        <option>institution 3</option>
-                        <option>institution 4</option>
+                        <option value="Selection">Selección</option>
+                        {% for institution in institutions %}
+                            <option value="{{institution.rut}}">
+                                {{institution.business_name}}
+                            </option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="registered-letter-number">
+                        Número de la carta certificada
+                    </label>
+                    <input id="registered-letter-number" class="form-control" type="number" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="porcentaje-aumento-precio-base">
+                        Porcentaje del aumento del precio base
+                    </label>
+                    <input id="porcentaje-aumento-precio-base" class="form-control" type="number" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="precio-base-original">
+                        Precio base original
+                    </label>
+                    <input id="precio-base-original" class="form-control" type="number" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="precio-base-reajustado">Precio base reajustado</label>
+                    <input id="precio-base-reajustado" class="form-control" type="number">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="precio-final-original">Precio final original</label>
+                    <input id="precio-final-original" class="form-control" type="number">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="precio-final-reajustado">Precio final reajustado</label>
+                    <input id="precio-final-reajustado" class="form-control" type="number">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
                 <div class="form-group">
                     <label for="fecha-envio-carta">Fecha del envío de la carta:</label>
                     <input id="datepicker-first" width="276" />
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 <div class="form-group">
                     <label for="fecha-recepcion-carta">Fecha de la recepción de la carta:</label>
                     <input id="datepicker-second" width="276" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="fecha-recepcion-carta">Mes comienza precio reajustado:</label>
+                    <input id="datepicker-third" width="276" />
                 </div>
             </div>
         </div>
@@ -75,6 +129,10 @@
         uiLibrary: 'bootstrap4'
     });
 
+    $('#datepicker-third').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+
     $(document).ready(function() {
         $('#summernote').summernote({
             height: 400,
@@ -91,6 +149,12 @@
     create_doc = document.getElementById('create-docx')
     create_doc.addEventListener("click", () => {
         var a = $("#summernote").summernote('code')
+
+        a = a.replace("NOMBRE_CLIENTE", "Sergio Neira")
+        a = a.replace("RUT_CLIENTE", "17.756.179-7")
+        console.log(a)
+
+
         Export2Doc(a, 'primer')
     })
 </script>
