@@ -12,7 +12,7 @@ class Client(models.Model):
     class Meta:
         db_table = 'client'
 
-    def __str__(self):
+    def get_as_dict(self):
         return {
             'full_name': self.full_name,
             'run': self.run,
@@ -32,7 +32,7 @@ class Institution(models.Model):
     class Meta:
         db_table = 'institution'
 
-    def __str__(self):
+    def get_as_dict(self):
         return {
             'business_name': self.business_name,
             'rut': self.rut,
