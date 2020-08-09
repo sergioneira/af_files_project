@@ -125,15 +125,20 @@
 <!-- Datepickers -->
 <script type="text/javascript">
     $('#datepicker-first').datepicker({
-        uiLibrary: 'bootstrap4'
+        uiLibrary: 'bootstrap4',
+        format: "dd/mm/yyyy"
     });
 
     $('#datepicker-second').datepicker({
-        uiLibrary: 'bootstrap4'
+        uiLibrary: 'bootstrap4',
+        format: "dd/mm/yyyy"
     });
 
     $('#datepicker-third').datepicker({
-        uiLibrary: 'bootstrap4'
+        uiLibrary: 'bootstrap4',
+        format: "mm/yyyy",
+        viewMode: "months",
+        minViewMode: "months"
     });
 
     /*create_doc = document.getElementById('create_doc')
@@ -169,10 +174,13 @@
     create_doc = document.getElementById('create-docx')
     create_doc.addEventListener("click", () => {
         let clients = document.getElementById('client-full-info')
-        client_info = getClientInfo(clients.options[clients.selectedIndex].value)
+        getClientInfo(clients.options[clients.selectedIndex].value)
 
         let institutions = document.getElementById('institution-info')
         getInstitutionInfo(institutions.options[institutions.selectedIndex].value)
+
+        resetDatesOnFile()
+        setNumberFieldsInDoc()
 
         setTimeout(
             () => {
@@ -268,6 +276,83 @@
             $("#summernote").summernote("reset")
             $("#summernote").summernote("editor.pasteHTML", summer_code)
         })
+    }
+</script>
+
+<!-- Replace date on text -->
+<script>
+    function resetDatesOnFile() {
+        month_names = [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre"
+        ]
+
+        summer_code = $("#summernote").summernote("code")
+
+        var fecha_envio_carta = $("#datepicker-first").datepicker().value()
+        fecha_envio_carta = fecha_envio_carta.split("/")
+        fecha_envio_carta = `${fecha_envio_carta[0]} de ${month_names[parseInt(fecha_envio_carta[1])].toLowerCase()} de ${fecha_envio_carta[2]}`
+        var regex_fecha_envio = new RegExp("FECHA_ENVIO_CARTA", "g")
+        summer_code = summer_code.replace(regex_fecha_envio, fecha_envio_carta)
+
+        var fecha_recepcion_carta = $("#datepicker-second").datepicker().value()
+        fecha_recepcion_carta = fecha_recepcion_carta.split("/")
+        fecha_recepcion_carta = `${fecha_recepcion_carta[0]} de ${month_names[parseInt(fecha_recepcion_carta[1])].toLowerCase()} de ${fecha_recepcion_carta[2]}`
+        var regex_fecha_recepcion = new RegExp("FECHA_RECEPCION_CARTA", "g")
+        summer_code = summer_code.replace(regex_fecha_recepcion, fecha_recepcion_carta)
+
+        var mes_comienzo_precio_reajustado = $("#datepicker-third").datepicker().value()
+        mes_comienzo_precio_reajustado = mes_comienzo_precio_reajustado.split("/")
+        mes_comienzo_precio_reajustado = `${month_names[parseInt(mes_comienzo_precio_reajustado[0])]} de ${mes_comienzo_precio_reajustado[1]}`
+        var regex_mes_comienzo_precio = new RegExp("MES_COMIENZA_PRECIO_REAJUSTADO", "g")
+        summer_code = summer_code.replace(regex_mes_comienzo_precio, mes_comienzo_precio_reajustado)
+        $("#summernote").summernote("reset")
+        $("#summernote").summernote("editor.pasteHTML", summer_code)
+    }
+</script>
+
+
+<!-- Get number fields -->
+<script>
+    function setNumberFieldsInDoc() {
+        summer_code = $("#summernote").summernote("code")
+
+        let registered_letter_number = $("#registered-letter-number").val()
+        var regex_registered_letter_number = new RegExp("NUMERO_CARTA_CERTIFICADA", "g")
+        summer_code = summer_code.replace(regex_registered_letter_number, registered_letter_number)
+
+        let porcentaje_aumento_precio_base = $("#porcentaje-aumento-precio-base").val()
+        var regex_porcentaje_aumento_precio_base = new RegExp("PORCENTAJE_AUMENTO_PRECIO_BASE", "g")
+        summer_code = summer_code.replace(regex_porcentaje_aumento_precio_base, `${porcentaje_aumento_precio_base}%`)
+
+        let precio_base_original = $("#precio-base-original").val()
+        var regex_precio_base_original = new RegExp("PRECIO_BASE_ORIGINAL", "g")
+        summer_code = summer_code.replace(regex_precio_base_original, precio_base_original)
+
+        let precio_base_reajustado = $("#precio-base-reajustado").val()
+        var regex_precio_base_reajustado = new RegExp("PRECIO_BASE_REAJUSTADO", "g")
+        summer_code = summer_code.replace(regex_precio_base_reajustado, precio_base_reajustado)
+
+        let precio_final_original = $("#precio-final-original").val()
+        var regex_precio_final_original = new RegExp("PRECIO_FINAL_ORIGINAL", "g")
+        summer_code = summer_code.replace(regex_precio_final_original, precio_final_original)
+
+        let precio_final_reajustado = $("#precio-final-reajustado").val()
+        var regex_precio_final_reajustado = new RegExp("PRECIO_FINAL_REAJUSTADO", "g")
+        summer_code = summer_code.replace(regex_precio_final_reajustado, precio_final_reajustado)
+
+        $("#summernote").summernote("reset")
+        $("#summernote").summernote("editor.pasteHTML", summer_code)
     }
 </script>
 {% endblock %}
