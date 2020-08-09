@@ -1,7 +1,8 @@
 <!-- CSS only -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous" />
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet" />
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
 
 <div class="container">
     <form>
@@ -173,11 +174,11 @@
         a = a.replace("RUT_CLIENTE", "17.756.179-7")
 
         let clients = document.getElementById('client-full-info')
-        getClientInfo(clients.options[clients.selectedIndex].value)
+        client_info = getClientInfo(clients.options[clients.selectedIndex].value)
 
         let institutions = document.getElementById('institution-info')
         getInstitutionInfo(institutions.options[institutions.selectedIndex].value)
-
+        console.log(client_info)
         Export2Doc(a, clients.options[clients.selectedIndex].text)
     })
 </script>
@@ -230,7 +231,15 @@
         $.ajax(
             url_client_info
         ).done(function(data) {
-            console.log(data)
+            var regex = new RegExp("NOMBRE_CLIENTE", "g")
+            summer_code = $("#summernote").summernote("code")
+            summer_code = summer_code.replace(regex, data.full_name)
+            summer_code = summer_code.replace("RUT_CLIENTE", data.run)
+            summer_code = summer_code.replace("DOMCILIO_CLIENTE", data.address)
+            summer_code = summer_code.replace("NACIONALIDAD", data.nationality)
+            summer_code = summer_code.replace("PROFESION", data.profesion)
+            $("#summernote").summernote("reset")
+            $("#summernote").summernote("editor.pasteHTML", summer_code)
         })
     }
 </script>
@@ -242,7 +251,13 @@
         $.ajax(
             url_institution_info
         ).done(function(data) {
-            console.log(data)
+            summer_code = $("#summernote").summernote("code")
+            summer_code = summer_code.replace("RAZON_SOCIAL_ISAPRE", data.business_name)
+            summer_code = summer_code.replace("RUT_ISAPRE", data.rut)
+            summer_code = summer_code.replace("DOMICILIO_ISAPRE", data.address)
+            summer_code = summer_code.replace("NOMBRE_REPRESENTANTE_LEGAL_ISAPRE", data.name_of_legal_representative)
+            $("#summernote").summernote("reset")
+            $("#summernote").summernote("editor.pasteHTML", summer_code)
         })
     }
 </script>
