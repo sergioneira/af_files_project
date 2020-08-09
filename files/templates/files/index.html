@@ -168,18 +168,19 @@
 <script>
     create_doc = document.getElementById('create-docx')
     create_doc.addEventListener("click", () => {
-        var a = $("#summernote").summernote('code')
-
-        a = a.replace("NOMBRE_CLIENTE", "Sergio Neira")
-        a = a.replace("RUT_CLIENTE", "17.756.179-7")
-
         let clients = document.getElementById('client-full-info')
         client_info = getClientInfo(clients.options[clients.selectedIndex].value)
 
         let institutions = document.getElementById('institution-info')
         getInstitutionInfo(institutions.options[institutions.selectedIndex].value)
-        console.log(client_info)
-        Export2Doc(a, clients.options[clients.selectedIndex].text)
+
+        setTimeout(
+            () => {
+                var a = $("#summernote").summernote('code')
+                Export2Doc(a, clients.options[clients.selectedIndex].text)
+            },
+            3000
+        )
     })
 </script>
 
@@ -231,13 +232,17 @@
         $.ajax(
             url_client_info
         ).done(function(data) {
-            var regex = new RegExp("NOMBRE_CLIENTE", "g")
             summer_code = $("#summernote").summernote("code")
-            summer_code = summer_code.replace(regex, data.full_name)
-            summer_code = summer_code.replace("RUT_CLIENTE", data.run)
-            summer_code = summer_code.replace("DOMCILIO_CLIENTE", data.address)
-            summer_code = summer_code.replace("NACIONALIDAD", data.nationality)
-            summer_code = summer_code.replace("PROFESION", data.profesion)
+            var regex_nombre_cliente = new RegExp("NOMBRE_CLIENTE", "g")
+            summer_code = summer_code.replace(regex_nombre_cliente, data.full_name)
+            var regex_rut_cliente = new RegExp("RUT_CLIENTE", "g")
+            summer_code = summer_code.replace(regex_rut_cliente, data.run)
+            var regex_domicilio_cliente = new RegExp("DOMICILIO_CLIENTE", "g")
+            summer_code = summer_code.replace(regex_domicilio_cliente, data.address)
+            var regex_nacionalidad = new RegExp("NACIONALIDAD", "g")
+            summer_code = summer_code.replace(regex_nacionalidad, data.nationality)
+            var regex_profesion = new RegExp("PROFESION", "g")
+            summer_code = summer_code.replace(regex_profesion, data.profesion)
             $("#summernote").summernote("reset")
             $("#summernote").summernote("editor.pasteHTML", summer_code)
         })
@@ -252,10 +257,14 @@
             url_institution_info
         ).done(function(data) {
             summer_code = $("#summernote").summernote("code")
-            summer_code = summer_code.replace("RAZON_SOCIAL_ISAPRE", data.business_name)
-            summer_code = summer_code.replace("RUT_ISAPRE", data.rut)
-            summer_code = summer_code.replace("DOMICILIO_ISAPRE", data.address)
-            summer_code = summer_code.replace("NOMBRE_REPRESENTANTE_LEGAL_ISAPRE", data.name_of_legal_representative)
+            var regex_business_name = new RegExp("RAZON_SOCIAL_ISAPRE", "g")
+            summer_code = summer_code.replace(regex_business_name, data.business_name)
+            var regex_rut_isapre = new RegExp("RUT_ISAPRE", "g")
+            summer_code = summer_code.replace(regex_rut_isapre, data.rut)
+            var regex_address_isapre = new RegExp("DOMICILIO_ISAPRE", "g")
+            summer_code = summer_code.replace(regex_address_isapre, data.address)
+            var regex_representante = new RegExp("NOMBRE_REPRESENTANTE_LEGAL_ISAPRE", "g")
+            summer_code = summer_code.replace(regex_representante, data.name_of_legal_representative)
             $("#summernote").summernote("reset")
             $("#summernote").summernote("editor.pasteHTML", summer_code)
         })
