@@ -12,6 +12,15 @@ class Client(models.Model):
     class Meta:
         db_table = 'client'
 
+    def __str__(self):
+        return {
+            'full_name': self.full_name,
+            'run': self.run,
+            'address': self.address,
+            'profession': self.profession,
+            'nationality': self.nationality,
+        }
+
 
 class Institution(models.Model):
     
@@ -22,6 +31,14 @@ class Institution(models.Model):
 
     class Meta:
         db_table = 'institution'
+
+    def __str__(self):
+        return {
+            'business_name': self.business_name,
+            'rut': self.rut,
+            'address': self.address,
+            'name_of_legal_representative': self.name_of_legal_representative,
+        }
 
 
 class HealthPlan(models.Model):

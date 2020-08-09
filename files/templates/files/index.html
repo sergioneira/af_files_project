@@ -120,6 +120,8 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <!-- Libraries -->
+
+<!-- Datepickers -->
 <script type="text/javascript">
     $('#datepicker-first').datepicker({
         uiLibrary: 'bootstrap4'
@@ -133,11 +135,6 @@
         uiLibrary: 'bootstrap4'
     });
 
-    $(document).ready(function() {
-        $('#summernote').summernote({
-            height: 400,
-        });
-    });
     /*create_doc = document.getElementById('create_doc')
     create_doc.addEventListener('click', function(e) {
         let
@@ -145,19 +142,19 @@
         let health_plans = document.getElementById('health_plans')
         console.log(health_plans.options[health_plans.selectedIndex].value)
     })*/
-
-    create_doc = document.getElementById('create-docx')
-    create_doc.addEventListener("click", () => {
-        var a = $("#summernote").summernote('code')
-
-        a = a.replace("NOMBRE_CLIENTE", "Sergio Neira")
-        a = a.replace("RUT_CLIENTE", "17.756.179-7")
-        console.log(a)
-
-
-        Export2Doc(a, 'primer')
-    })
 </script>
+
+<!-- Init summernote-->
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            height: 400,
+        });
+    });
+</script>
+
+<!-- Get protection appeal -->
+
 <script>
     $.ajax(
         "/files/writing/"
@@ -166,9 +163,26 @@
     })
 </script>
 
+<!-- Download button -->
+<script>
+    create_doc = document.getElementById('create-docx')
+    create_doc.addEventListener("click", () => {
+        var a = $("#summernote").summernote('code')
 
+        a = a.replace("NOMBRE_CLIENTE", "Sergio Neira")
+        a = a.replace("RUT_CLIENTE", "17.756.179-7")
 
+        let clients = document.getElementById('client-full-info')
+        getClientInfo(clients.options[clients.selectedIndex].value)
 
+        let institutions = document.getElementById('institution-info')
+        getInstitutionInfo(institutions.options[institutions.selectedIndex].value)
+
+        Export2Doc(a, clients.options[clients.selectedIndex].text)
+    })
+</script>
+
+<!-- Download doc function -->
 
 <script>
     function Export2Doc(content, filename = '') {
@@ -205,6 +219,31 @@
         }
 
         document.body.removeChild(downloadLink);
+    }
+</script>
+
+
+<!-- Get client info based on run -->
+<script>
+    function getClientInfo(run) {
+        url_client_info = `/files/client/${run}/`
+        $.ajax(
+            url_client_info
+        ).done(function(data) {
+            console.log(data)
+        })
+    }
+</script>
+
+<!-- Get institution info based on rut -->
+<script>
+    function getInstitutionInfo(rut) {
+        url_institution_info = `/files/institution/${rut}/`
+        $.ajax(
+            url_institution_info
+        ).done(function(data) {
+            console.log(data)
+        })
     }
 </script>
 {% endblock %}

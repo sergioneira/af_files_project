@@ -1,5 +1,10 @@
+import json
+
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import (
+    get_object_or_404,
+    render,
+)
 from files.models import (
     Client,
     Institution,
@@ -24,4 +29,15 @@ def get_info(request):
 def get_writing(request):
     content = Writing.objects.first().content
     return HttpResponse(content)
+
+
+def get_client_info(request, run_client):
+    client = get_object_or_404(Client, run=run_client)
+    serialized_client = json.dumps(client.__str__())
+    return HttpResponse(serialized_client, 'application/json')
+
+def get_institution_info(request, rut_institution):
+    institution = get_object_or_404(Institution, rut=rut_institution)
+    serialized_institution = json.dumps(institution.__str__())
+    return HttpResponse(serialized_institution, 'application/json')
     
