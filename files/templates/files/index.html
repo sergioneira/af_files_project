@@ -33,6 +33,34 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="nombre-plan-salud">Nombre del plan de salud:</label>
+                    <select id="nombre-plan-salud" class="form-control">
+                        <option value="Selection">Selección</option>
+                        {% for hp in health_plans %}
+                            <option value="{{hp.id}}">
+                                {{hp.name}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="nombre-plan-salud-alternativo">Nombre del plan de salud alternativo:</label>
+                    <select id="nombre-plan-salud-alternativo" class="form-control">
+                        <option value="Selection">Selección</option>
+                        {% for hp in health_plans %}
+                            <option value="{{hp.id}}">
+                                {{hp.name}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-4">
                 <div class="form-group">
                     <label for="registered-letter-number">
@@ -181,6 +209,7 @@
 
         resetDatesOnFile()
         setNumberFieldsInDoc()
+        setPlanNames()
 
         setTimeout(
             () => {
@@ -350,6 +379,26 @@
         let precio_final_reajustado = $("#precio-final-reajustado").val()
         var regex_precio_final_reajustado = new RegExp("PRECIO_FINAL_REAJUSTADO", "g")
         summer_code = summer_code.replace(regex_precio_final_reajustado, precio_final_reajustado)
+
+        $("#summernote").summernote("reset")
+        $("#summernote").summernote("editor.pasteHTML", summer_code)
+    }
+</script>
+
+<!-- get name plans -->
+<script>
+    function setPlanNames() {
+        summer_code = $("#summernote").summernote("code")
+
+        let plan_salud = document.getElementById('nombre-plan-salud')
+        plan_salud_selected = plan_salud.options[plan_salud.selectedIndex].text
+        var regex_plan_salud_selected = new RegExp("NOMBRE_PLAN_SALUD", "g")
+        summer_code = summer_code.replace(regex_plan_salud_selected, plan_salud_selected)
+
+        let plan_salud_alternativo = document.getElementById('nombre-plan-salud-alternativo')
+        plan_salud_alternativo_selected = plan_salud_alternativo.options[plan_salud_alternativo.selectedIndex].text
+        var regex_plan_salud_alternativo_selected = new RegExp("NOMBRE_PLAN_ALTERNATIVO", "g")
+        summer_code = summer_code.replace(regex_plan_salud_alternativo_selected, plan_salud_alternativo_selected)
 
         $("#summernote").summernote("reset")
         $("#summernote").summernote("editor.pasteHTML", summer_code)
